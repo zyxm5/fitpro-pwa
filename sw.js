@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fitpro-v3';
+const CACHE_NAME = 'fitpro-v4';
 const BASE = '/fitpro-pwa/';
 const PRECACHE_URLS = [
   BASE,
