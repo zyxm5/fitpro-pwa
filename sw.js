@@ -1,15 +1,16 @@
-const CACHE_NAME = 'fitpro-v1';
+const CACHE_NAME = 'fitpro-v2';
+const BASE = '/fitpro-pwa/';
 const PRECACHE_URLS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './js/app.js',
-  './js/634.js',
-  './css/229.css',
-  './css/270.css',
-  './css/701.css',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  BASE,
+  BASE + 'index.html',
+  BASE + 'manifest.json',
+  BASE + 'js/app.js',
+  BASE + 'js/634.js',
+  BASE + 'css/229.css',
+  BASE + 'css/270.css',
+  BASE + 'css/701.css',
+  BASE + 'icons/icon-192.png',
+  BASE + 'icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -44,7 +45,7 @@ self.addEventListener('fetch', (event) => {
         const copy = res.clone();
         caches.open(CACHE_NAME).then((c) => c.put(req, copy));
         return res;
-      }).catch(() => caches.match(req).then((r) => r || caches.match('./index.html')))
+      }).catch(() => caches.match(req).then((r) => r || caches.match(BASE + 'index.html')))
     );
   } else {
     event.respondWith(
