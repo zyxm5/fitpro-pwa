@@ -2,8 +2,8 @@
   "name": "FitPro 健身训练",
   "short_name": "FitPro",
   "description": "专业健身训练计划编排与执行",
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "/fitpro-pwa/",
+  "scope": "/fitpro-pwa/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F5F7FA",
@@ -11,13 +11,13 @@
   "lang": "zh-CN",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "/fitpro-pwa/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "/fitpro-pwa/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
