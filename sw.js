@@ -1,26 +1,8 @@
-const CACHE_NAME = 'fitpro-v4';
+const CACHE_NAME = 'fitpro-v5';
 const BASE = '/fitpro-pwa/';
-const PRECACHE_URLS = [
-  BASE,
-  BASE + 'index.html',
-  BASE + 'manifest.json',
-  BASE + 'js/app.js',
-  BASE + 'js/634.js',
-  BASE + 'css/229.css',
-  BASE + 'css/270.css',
-  BASE + 'css/701.css',
-  BASE + 'icons/icon-192.png',
-  BASE + 'icons/icon-512.png'
-];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_URLS).catch((err) => {
-        console.warn('Precache partial failure:', err);
-      });
-    }).then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -39,6 +21,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
+  // Network-first for HTML navigation
   if (req.mode === 'navigate' || url.pathname.endsWith('.html')) {
     event.respondWith(
       fetch(req).then((res) => {
@@ -48,13 +31,15 @@ self.addEventListener('fetch', (event) => {
       }).catch(() => caches.match(req).then((r) => r || caches.match(BASE + 'index.html')))
     );
   } else {
+    // Stale-while-revalidate for static assets
     event.respondWith(
       caches.match(req).then((cached) => {
-        return cached || fetch(req).then((res) => {
+        const fetchPromise = fetch(req).then((res) => {
           const copy = res.clone();
           caches.open(CACHE_NAME).then((c) => c.put(req, copy));
           return res;
         }).catch(() => cached);
+        return cached || fetchPromise;
       })
     );
   }
